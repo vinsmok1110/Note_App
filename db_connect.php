@@ -1,17 +1,11 @@
-<?php
-// db_connect.php
+$conn = mysqli_connect(
+    getenv('DB_HOST'),       // Database host (e.g., localhost or the Coolify server)
+    getenv('DB_USERNAME'),   // Database username
+    getenv('DB_PASSWORD'),   // Database password
+    getenv('DB_DATABASE'),   // Database name
+    getenv('DB_PORT') ?: '3306' // Database port, default to 3306 if not set
+);
 
-// Database connection details
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = '';
-$DATABASE_NAME = 'phplogin';
-
-// Connect to the database
-$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-
-// Check connection
-if (mysqli_connect_errno()) {
-    exit('Failed to connect to MySQL: ' . mysqli_connect_error());
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
-?>
