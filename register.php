@@ -1,12 +1,12 @@
 <?php
 // Include the database connection
-include 'db_connect.php';
+include 'db_connect.php'; // Ensure this contains the $conn variable
 
 // Start the registration process
 
-// Now we check if the data was submitted, isset() function will check if the data exists.
+// Check if the data was submitted
 if (!isset($_POST['username'], $_POST['password'], $_POST['email'])) {
-    // Could not get the data that should have been sent.
+    // Could not get the data that should have been sent
     exit('Please complete the registration form!');
 }
 
@@ -37,7 +37,7 @@ if (!empty($errors)) {
 }
 
 // Check if the account with that username exists
-if ($stmt = $con->prepare('SELECT user_id FROM accounts WHERE username = ?')) {
+if ($stmt = $conn->prepare('SELECT user_id FROM accounts WHERE username = ?')) { // Changed $con to $conn
     // Bind the username parameter
     $stmt->bind_param('s', $_POST['username']);
     $stmt->execute();
@@ -50,7 +50,7 @@ if ($stmt = $con->prepare('SELECT user_id FROM accounts WHERE username = ?')) {
         exit(); // Stop further execution of the script
     } else {
         // Insert new account into the database
-        if ($stmt = $con->prepare('INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)')) {
+        if ($stmt = $conn->prepare('INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)')) { // Changed $con to $conn
             // Hash the password before storing it in the database
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $stmt->bind_param('sss', $_POST['username'], $password, $_POST['email']);
@@ -74,6 +74,5 @@ if ($stmt = $con->prepare('SELECT user_id FROM accounts WHERE username = ?')) {
     exit(); // Stop further execution of the script
 }
 
-$con->close();
+$conn->close(); // Changed $con to $conn
 ?>
-
