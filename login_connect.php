@@ -1,5 +1,5 @@
 <?php
-// Include database connection
+// Include the database connection
 include 'db_connect.php';
 
 // Start session
@@ -39,12 +39,10 @@ if ($stmt = $con->prepare('SELECT user_id, password FROM accounts WHERE username
         // Bind the result to variables
         $stmt->bind_result($user_id, $hashed_password);
         $stmt->fetch();
-        
+
         // Verify the password
         if (password_verify($_POST['password'], $hashed_password)) {
             // Success: The password is correct, start the session
-            session_start();
-            // Store the user ID and username in session variables
             $_SESSION['user_id'] = $user_id;
             $_SESSION['username'] = $_POST['username'];
 
@@ -68,5 +66,6 @@ if ($stmt = $con->prepare('SELECT user_id, password FROM accounts WHERE username
     echo json_encode($errors); // Output errors as JSON for JavaScript to handle
     exit(); // Stop further execution of the script
 }
+
 $con->close();
 ?>
