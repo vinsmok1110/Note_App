@@ -21,9 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and validate input
     $title = htmlspecialchars($_POST['title']);
     $description = htmlspecialchars($_POST['description']);
+    
+    // Assuming 'notes_username' is mandatory and available in the session
+    $notes_username = $_SESSION['username']; // Or get it from your form if applicable
 
     // Prepare SQL statement for insertion
-    $sql = "INSERT INTO notes (user_id, title, description, created_at) VALUES (?, ?, ?, NOW())";
+    $sql = "INSERT INTO notes (user_id, title, description, notes_username, created_at) VALUES (?, ?, ?, ?, NOW())";
     
     // Prepare and bind parameters
     $stmt = $conn->prepare($sql);
@@ -35,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_SESSION['user_id'];
 
     // Bind the parameters
-    $stmt->bind_param("iss", $user_id, $title, $description);
+    $stmt->bind_param("isss", $user_id, $title, $description, $notes_username);
 
     // Execute the statement
     if ($stmt->execute()) {
