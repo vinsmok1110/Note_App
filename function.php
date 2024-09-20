@@ -1,14 +1,14 @@
 <?php
-
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = ""; // Enter your database password here
-$dbname = "phplogin"; // Enter your database name here
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Establish a database connection using environment variables
+$conn = new mysqli(
+    getenv('DB_HOST'),        // Database host
+    getenv('DB_USERNAME'),    // Database username
+    getenv('DB_PASSWORD'),    // Database password
+    getenv('DB_DATABASE'),    // Database name
+    getenv('DB_PORT') ?: '3306' // Database port, default to 3306 if not set
+);
 
 // Check connection
 if ($conn->connect_error) {
@@ -16,7 +16,6 @@ if ($conn->connect_error) {
 }
 
 // Check if user is logged in and get their user ID
-
 if (!isset($_SESSION['user_id'])) {
     // Redirect user to login page or handle unauthorized access
     header("Location: index.php");
@@ -41,10 +40,6 @@ function getNotes($conn, $user_id) {
     return $notes;
 }
 
-
-
-
-
 // Display notes
 $notes = getNotes($conn, $user_id);
 
@@ -66,7 +61,6 @@ function displayNotes($notes) {
 
 // Function to edit notes
 function editNotes($noteId) {
-    // Retrieve note details from the database based on $noteId
     global $conn;
     $sql = "SELECT * FROM notes WHERE notes_id = $noteId";
     $result = $conn->query($sql);
@@ -85,6 +79,7 @@ function editNotes($noteId) {
     }
 }
 
+// Function to archive a note
 function archiveNote($noteId) {
     global $conn;
     $sql = "UPDATE notes SET archived = 1 WHERE notes_id = $noteId";
@@ -94,4 +89,4 @@ function archiveNote($noteId) {
         echo "Error archiving note: " . $conn->error;
     }
 }
-
+?>
