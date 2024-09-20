@@ -1,20 +1,20 @@
 <?php
-// Function to connect to the database
+// Function to connect to the database using environment variables
 function connectDB() {
-    $host = "localhost";
-    $dbname = "phplogin";
-    $username = "root";
-    $password = "";
-
     try {
+        $host = getenv('DB_HOST');
+        $dbname = getenv('DB_DATABASE');
+        $username = getenv('DB_USERNAME');
+        $password = getenv('DB_PASSWORD');
+
+        // Use PDO to connect to the database
         $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
+        return null;
     }
-
-    return null;
 }
 
 // Function to delete a note
@@ -36,12 +36,12 @@ function deleteNote($conn, $note_id) {
 $conn = connectDB();
 
 // Check if note_id is set in the URL
-if(isset($_GET['note_id'])) {
+if (isset($_GET['note_id'])) {
     // Get the note ID from the URL
     $note_id = $_GET['note_id'];
 
     // Attempt to delete the note
-    if(deleteNote($conn, $note_id)) {
+    if (deleteNote($conn, $note_id)) {
         // Note deleted successfully, redirect back to the dashboard or any other desired page
         header("Location: dashboard.php");
         exit();
