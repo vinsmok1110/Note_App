@@ -1,6 +1,6 @@
 <?php
 // Include the database connection
-include 'db_connect.php';
+include 'db_connect.php'; // This includes the environment-based connection using $conn
 
 // Start session
 session_start();
@@ -28,7 +28,7 @@ if (!empty($errors)) {
 }
 
 // Prepare the SQL statement to retrieve the account details
-if ($stmt = $con->prepare('SELECT user_id, password FROM accounts WHERE username = ?')) {
+if ($stmt = $conn->prepare('SELECT user_id, password FROM accounts WHERE username = ?')) { // Using $conn instead of $con
     // Bind parameters (s = string)
     $stmt->bind_param('s', $_POST['username']);
     $stmt->execute();
@@ -67,5 +67,5 @@ if ($stmt = $con->prepare('SELECT user_id, password FROM accounts WHERE username
     exit(); // Stop further execution of the script
 }
 
-$con->close();
+$conn->close(); // Using $conn instead of $con
 ?>
