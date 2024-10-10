@@ -4,3 +4,11 @@ DB-HOST=(internal)
 DB-PASSWORD(normal user password)
 DB-PORT=3306
 DB-USERNAME=myqsql(normal user)
+
+
+DB_CONNECTION=mysql
+DB_DATABASE=default
+DB_HOST=ss4k8s408o0wow8wcgs8884g
+DB_PASSWORD=XsxMLn6OQweMqqTc1lB26f3yTy5Yn8lwYMkMOE4OHC7r3gLQglxKxGAY1vvq6vS2
+DB_PORT=3306
+DB_USERNAME=mysql
