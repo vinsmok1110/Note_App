@@ -1,0 +1,6 @@
+DB-CONNECTION=myqsql
+DB-DATABASE=default
+DB-HOST=(internal)
+DB-PASSWORD(normal user password)
+DB-PORT=3306
+DB-USERNAME=myqsql(normal user)
